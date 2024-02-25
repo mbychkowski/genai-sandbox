@@ -1,0 +1,12 @@
+type Post implements Node {
+  id: ID!
+  title: String!
+  content: String
+  published: Boolean!
+  author: User!
+  authorId(id: ID!): User
+}
+
+type Query {
+  postById(id: Int): Post
+}

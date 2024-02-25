@@ -1,0 +1,16 @@
+enum Role {
+  USER
+  ADMIN
+}
+
+type Query {
+  userById(id: Int): User
+  allUsers: [User]
+}
+
+type User implements Node {
+  id: ID!
+  email: String!
+  role: Role!
+  posts: [Post]!
+}
