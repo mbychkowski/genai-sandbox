@@ -1,5 +1,7 @@
-.main {
-  max-width: 680px;
+.body {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--max-width);
   margin: 0 auto;
   padding: 2rem;
 }

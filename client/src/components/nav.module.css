@@ -1,0 +1,18 @@
+.ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.ul > li {
+  padding: 1rem 1.6rem;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.ul > li:hover {
+  text-decoration: underline;
+}

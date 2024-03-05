@@ -3,6 +3,21 @@ import { Noto_Sans } from 'next/font/google';
 import '@/app/globals.css';
 import Page from '@/components/page';
 
+const LINKS = [
+  {
+    name: 'posts',
+    route: '/posts',
+  },
+  {
+    name: 'photos',
+    route: '/photos',
+  },
+];
+
+const HEADER = {
+  title: 'home',
+};
+
 const notoSans = Noto_Sans({
   subsets: ['latin'],
   weight: ['100', '300', '500', '700', '900'],
@@ -22,7 +37,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={notoSans.className}>
-        <Page>{children}</Page>
+        <Page header={HEADER} links={LINKS}>
+          {children}
+        </Page>
       </body>
     </html>
   );

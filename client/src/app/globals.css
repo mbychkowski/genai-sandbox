@@ -15,6 +15,7 @@
 
 html {
   font-size: 10px;
+  --max-width: 680px
 }
 
 html,
