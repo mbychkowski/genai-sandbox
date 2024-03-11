@@ -3,6 +3,16 @@
     'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace',
     'Source Code Pro', 'Fira Mono', 'Droid Sans Mono', 'Courier New',
     monospace;
+
+  --max-width: 680px;
+}
+
+[data-theme='dark'] {
+  --primary-color: #9A97F3;
+  --secondary-color: #818cab;
+  --font-color: #e1e1ff;
+  --bg-color: #161625;
+  --heading-color: #818cab;
 }
 
 *,
@@ -15,7 +25,6 @@
 
 html {
   font-size: 10px;
-  --max-width: 680px
 }
 
 html,
@@ -27,6 +36,9 @@ body {
 body {
   font-size: 1.5rem;
   line-height: 2;
+
+  color: var(--font-color);
+  background: var(--bg-color);
 }
 
 a {

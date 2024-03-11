@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
 import { Noto_Sans } from 'next/font/google';
-import '@/app/globals.css';
+import { NextThemeProvider } from '@/components/nextThemeProvider';
 import Page from '@/components/page';
+import Switch from '@/components/switch';
+
+import '@/app/globals.css';
 
 const LINKS = [
   {
@@ -35,11 +38,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html suppressHydrationWarning lang="en">
       <body className={notoSans.className}>
-        <Page header={HEADER} links={LINKS}>
-          {children}
-        </Page>
+        <NextThemeProvider>
+          <Switch />
+          <Page header={HEADER} links={LINKS}>
+            {children}
+          </Page>
+        </NextThemeProvider>
       </body>
     </html>
   );

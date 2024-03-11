@@ -14,11 +14,12 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
-  role  Role    @default(USER)
+  id      Int     @id @default(autoincrement())
+  email   String  @unique
+  name    String?
+  posts   Post[]
+  photos  Photo[]
+  role    Role    @default(USER)
 }
 
 model Post {
@@ -27,6 +28,15 @@ model Post {
   content   String?
   published Boolean @default(false)
   author    User    @relation(fields: [authorId], references: [id])
+  authorId  Int
+}
+
+model Photo {
+  id        Int       @id @default(autoincrement())
+  title     String
+  published Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  author    User      @relation(fields: [authorId], references: [id])
   authorId  Int
 }
 
