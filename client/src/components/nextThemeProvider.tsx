@@ -7,5 +7,13 @@ export function NextThemeProvider({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <ThemeProvider>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider
+      themes={['light', 'dark']}
+      defaultTheme="dark"
+      enableSystem={false}
+    >
+      {children}
+    </ThemeProvider>
+  );
 }

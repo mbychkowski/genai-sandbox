@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Noto_Sans } from 'next/font/google';
+import { Noto_Sans, Noto_Sans_Mono } from 'next/font/google';
 import { NextThemeProvider } from '@/components/nextThemeProvider';
 import Page from '@/components/page';
 import Switch from '@/components/switch';
@@ -21,7 +21,7 @@ const HEADER = {
   title: 'home',
 };
 
-const notoSans = Noto_Sans({
+const notoSansMono = Noto_Sans_Mono({
   subsets: ['latin'],
   weight: ['100', '300', '500', '700', '900'],
   display: 'swap',
@@ -39,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className={notoSans.className}>
+      <body className={notoSansMono.className}>
         <NextThemeProvider>
           <Switch />
           <Page header={HEADER} links={LINKS}>

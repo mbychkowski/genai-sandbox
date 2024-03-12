@@ -36,9 +36,15 @@ body {
 body {
   font-size: 1.5rem;
   line-height: 2;
+  letter-spacing: 0.225rem;
 
   color: var(--font-color);
-  background: var(--bg-color);
+  background-color: var(--bg-color);
+
+  -webkit-transition: background-color 0.62s ease, color 0.62s ease;
+     -moz-transition: background-color 0.62s ease, color 0.62s ease;
+       -o-transition: background-color 0.62s ease, color 0.62s ease;
+          transition: background-color 0.62s ease, color 0.62s ease;
 }
 
 a {
