@@ -25,9 +25,11 @@ PSQL_PW = os.getenv("PSQL_PW")
 async def main() -> None:
   documents = load_documents()
   chunks = split_text(documents)
-  store = await create_store()
+
+  await store = await create_store()
   await save_to_alloydb(store, chunks)
 
+  # store = await get_store()
   # query = "I'd like to be a bard."
   # docs = await store.asimilarity_search(query)
   # print(docs)
@@ -52,7 +54,7 @@ def split_text(documents: list[Document]):
   return chunks
 
 async def create_store():
-  engine = AlloyDBEngine.from_instance(
+  engine = await AlloyDBEngine.afrom_instance(
     project_id=GCP_PROJECT_ID,
     region=PSQL_REGION,
     cluster=PSQL_CLUSTER,
@@ -79,12 +81,37 @@ async def create_store():
 
   return store
 
+async def get_store():
+  engine = await AlloyDBEngine.afrom_instance(
+    project_id=GCP_PROJECT_ID,
+    region=PSQL_REGION,
+    cluster=PSQL_CLUSTER,
+    instance=PSQL_INSTANCE,
+    database=PSQL_DATABASE,
+    user=PSQL_USER,
+    password=PSQL_PW,
+  )
+
+  embedding = VertexAIEmbeddings(
+    model_name="textembedding-gecko@latest", project=GCP_PROJECT_ID
+  )
+
+  store = await AlloyDBVectorStore(
+    engine=engine,
+    table_name=PSQL_VECTOR_TABLE,
+    embedding_service=embedding,
+  )
+
+  return store
+
 async def save_to_alloydb(store, chunks: list[Document]):
-  # all_texts = [chunk.page_content for chunk in chunks]
-  # metadatas = [chunk.metadata for chunk in chunks]
+  all_texts = [chunk.page_content for chunk in chunks]
+
+  metadatas = [chunk.metadata for chunk in chunks]
+
   ids = [str(uuid.uuid4()) for _ in chunks]
 
-  await store.add_documents(chunks, ids=ids)
+  await store.aadd_texts(texts=all_texts, metadatas=metadatas, ids=ids)
 
 if __name__ == "__main__":
   asyncio.run(main())
