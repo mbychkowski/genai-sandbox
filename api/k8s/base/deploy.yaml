@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: genai-api
+  name: genai-api
+spec:
+  replicas: 1
+  progressDeadlineSeconds: 300
+  selector:
+    matchLabels:
+      app: genai-api
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: genai-api
+        version: stable
+    spec:
+      containers:
+      - name: genai-api
+        image: apps/genai-api
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 4000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 4000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi

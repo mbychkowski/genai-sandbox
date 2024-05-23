@@ -1,0 +1,12 @@
+apiVersion: skaffold/v4beta7
+kind: Config
+metadata:
+  name: genai-common
+profiles:
+- name: local
+  manifests:
+    kustomize:
+      paths:
+      - ./k8s/local
+  deploy:
+    kubectl: {}

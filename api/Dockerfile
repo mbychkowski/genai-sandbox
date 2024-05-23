@@ -23,7 +23,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # This will do the trick, use the corresponding env file for each environment.
 # COPY .env.production .env.production
-RUN npm run build
+RUN npm run compile
 
 # 3. Production image, copy all the files and run next
 FROM base AS runner
@@ -31,24 +31,16 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S yogi -u 1001
 
-# Set the correct permission for prerender cache
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
+COPY --from=builder --chown=yogi:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=yogi:nodejs /app/dist ./dist
 
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+USER yogi
 
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+EXPOSE 4001
 
-USER nextjs
+ENV PORT 4001
 
-EXPOSE 3000
-
-ENV PORT 3000
-
-CMD HOSTNAME="0.0.0.0" node server.js
+CMD HOSTNAME=localhost node ./dist/index.js

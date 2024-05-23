@@ -1,0 +1,14 @@
+services:
+  web:
+    build:
+      context: ./client
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      api:
+        condition: service_started
+  api:
+    build:
+      context: ./api
+    ports:
+      - "127.0.0.1:4001:4001"

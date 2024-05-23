@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "compile": "tsc",
+    "precompile": "del dist",
+    "postcompile": "cpy 'src/**/*.graphql' '!src/**/*.ts' dist/",
     "dev": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "generate": "prisma generate --schema=./prisma/schema.prisma && graphql-codegen --config codegen.yaml",
@@ -19,6 +22,8 @@
     "@graphql-codegen/typescript-operations": "^4.2.0",
     "@graphql-codegen/typescript-resolvers": "^4.0.6",
     "@types/node": "^20.11.20",
+    "cpy-cli": "^5.0.0",
+    "del-cli": "^5.1.0",
     "prisma": "^5.13.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
