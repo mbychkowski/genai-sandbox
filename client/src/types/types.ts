@@ -1,4 +1,5 @@
 export type ILinks = {
+  protected: boolean;
   name: string;
   route: string;
 };

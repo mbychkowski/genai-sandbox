@@ -1,10 +1,10 @@
 'use client';
 
+import * as React from 'react'
 import { ThemeProvider } from 'next-themes';
+import { AuthProvider } from '@/lib/authProvider';
 
-export function NextThemeProvider({
-  children,
-}: Readonly<{
+export function Providers({ children }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
@@ -13,7 +13,9 @@ export function NextThemeProvider({
       defaultTheme="dark"
       enableSystem={false}
     >
-      {children}
+      <AuthProvider>
+        {children}
+      </AuthProvider>
     </ThemeProvider>
-  );
+  )
 }
