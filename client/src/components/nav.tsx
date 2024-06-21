@@ -1,11 +1,11 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import styles from '@/components/nav.module.css';
 import { User } from 'firebase/auth';
 import { ILinks } from '@/types/types';
-import { useAuth } from '@/lib/authProvider';
-import React from 'react';
+import { signInWithGoogle, signOut, useAuth } from '@/lib/authProvider';
 
 export default function Nav({
   links,
@@ -17,22 +17,50 @@ export default function Nav({
 
   const user = useAuth(initialUser);
 
-  console.log(user)
+  console.log('Current logged in user:', user)
+
+    const handleSignOut = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+      signOut();
+  }
+
+  const handleSignIn = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    signInWithGoogle();;
+  }
 
   return (
-    <ul className={styles.ul}>
-      {links.map((link) => (
+    <header>
+      {
+        user?.toJSON() ? (
+          <ul className={styles.ul}>
+            {links.map((link) => (
 
-        (user && link.protected) ? (
-          <li key={link.name}>
-            <Link href={link.route}>{link.name}</Link>
-          </li>
+              (user && link.protected) ? (
+                <li key={link.name}>
+                  <Link href={link.route}>{link.name}</Link>
+                </li>
+              ) : (
+                <li key={link.name}>
+                  <Link href={link.route}>{link.name}</Link>
+                </li>
+              )
+            ))}
+            <li>
+              <a href="#" onClick={handleSignOut}>
+                Sign out
+              </a>
+            </li>
+          </ul>
         ) : (
-          <li key={link.name}>
-            <Link href={link.route}>{link.name}</Link>
-          </li>
+          <div>
+            <a href="#" onClick={handleSignIn}>
+              Sign in with Google
+            </a>
+          </div>
         )
-      ))}
-    </ul>
+      }
+
+    </header>
   );
 }

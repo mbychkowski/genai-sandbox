@@ -1,12 +1,17 @@
-import { FirebaseOptions, initializeApp } from "firebase/app";
+// self.addEventListener("install", function (event) {
+//   console.log("Hello world from the Service Worker 🤙");
+// });
+
+import { initializeApp } from "firebase/app";
 import { getAuth, getIdToken } from "firebase/auth";
 import { getInstallations, getToken } from "firebase/installations";
 
 // this is set during install
-let firebaseConfig: FirebaseOptions;
+let firebaseConfig;
 
-self.addEventListener('install', () => {
+self.addEventListener('install', event => {
   // extract firebase config from query string
+  console.log('location:', location)
   const serializedFirebaseConfig = new URL(location).searchParams.get('firebaseConfig');
 
   if (!serializedFirebaseConfig) {
@@ -16,7 +21,6 @@ self.addEventListener('install', () => {
   firebaseConfig = JSON.parse(serializedFirebaseConfig);
   console.log("Service worker installed with Firebase config", firebaseConfig);
 });
-
 
 self.addEventListener("fetch", (event) => {
   const { origin } = new URL(event.request.url);

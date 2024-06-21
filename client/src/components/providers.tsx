@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 import { ThemeProvider } from 'next-themes';
-import { AuthProvider } from '@/lib/authProvider';
 
 export function Providers({ children }: Readonly<{
   children: React.ReactNode;
@@ -13,9 +12,7 @@ export function Providers({ children }: Readonly<{
       defaultTheme="dark"
       enableSystem={false}
     >
-      <AuthProvider>
-        {children}
-      </AuthProvider>
+      {children}
     </ThemeProvider>
   )
 }
