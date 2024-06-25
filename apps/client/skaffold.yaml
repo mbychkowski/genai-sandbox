@@ -44,4 +44,23 @@ profiles:
       - ./k8s/overlays/local
   deploy:
     kubectl: {}
+- name: dev
+  build:
+    googleCloudBuild: {}
+    tagPolicy:
+      gitCommit: {}
+    artifacts:
+    - image: us-central1-docker.pkg.dev/prj-zeld-deku/cicd/be00
+      context: .
+      kaniko:
+        dockerfile: Dockerfile
+        image: gcr.io/kaniko-project/executor
+        cache: {}
+  manifests:
+    rawYaml:
+      - ./run/*
+  deploy:
+    cloudrun:
+      projectid: prj-kokiri-dev
+      region: us-central1
   requiresAllActivations: false

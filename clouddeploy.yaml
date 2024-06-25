@@ -12,20 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: skaffold/v4beta7
-kind: Config
+apiVersion: deploy.cloud.google.com/v1
+kind: DeliveryPipeline
 metadata:
-  name: genai-sandbox
-requires:
-- configs: ["common"]
-  path: infra/common/skaffold.yaml
-  activeProfiles:
-  - name: local
-- configs: ["client"]
-  path: apps/client/skaffold.yaml
-  activeProfiles:
-  - name: local
-- configs: ["api"]
-  path: apps/api/skaffold.yaml
-  activeProfiles:
-  - name: local
+  name: genai-client
+  annotations:
+    about: NextJS client with firebase oauth integration
+  labels:
+    lang: javascript
+description: |
+  Delivery pipeline for CI CD apps/genai-client.
+serialPipeline:
+  stages:
+  - targetId: dev
+    profiles: [dev]
+---
+apiVersion: deploy.cloud.google.com/v1
+kind: Target
+metadata:
+  name: dev
+description: 01 Development Cloud Run target
+run:
+  location: projects/prj-kokiri-dev/locations/us-central1

@@ -32,3 +32,9 @@ gcloud beta alloydb instances update $PSQL_INSTANCE \
     --region=$PSQL_REGION  \
     --assign-inbound-public-ip=ASSIGN_IPV4
 ```
+
+# Deploy Cloud Deploy configuration
+
+```
+gcloud --project ${PROJECT_ID} deploy apply --file clouddeploy.yaml --region "${REGION}
+```
