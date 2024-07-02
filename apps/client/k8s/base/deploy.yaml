@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: genai-client
-        image: apps/genai-client
+        image: apps/genai/client
         readinessProbe:
           httpGet:
             path: /

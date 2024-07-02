@@ -22,8 +22,11 @@ for SUCCINCT_ROLE in \
     container.developer \
     iam.serviceAccountUser \
     pubsub.subscriber \
+    run.developer \
+    run.invoker \
     source.reader \
-    storage.objectAdmin ; do
+    storage.objectAdmin \
+    ; do
   gcloud projects add-iam-policy-binding --member="serviceAccount:${CLOUD_BUILD_SA}" --role "roles/$SUCCINCT_ROLE" "$PROJECT_ID" --condition=None
 done
 
@@ -34,7 +37,10 @@ for SUCCINCT_ROLE in \
     cloudbuild.connectionAdmin \
     container.developer \
     container.nodeServiceAgent \
+    iam.serviceAccountUser \
     storage.objectCreator \
+    run.developer \
+    run.invoker \
     ; do
   gcloud projects add-iam-policy-binding --member="serviceAccount:${GCE_SA}" --role "roles/$SUCCINCT_ROLE" "$PROJECT_ID" --condition=None
 done

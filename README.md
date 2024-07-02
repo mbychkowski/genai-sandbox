@@ -38,3 +38,16 @@ gcloud beta alloydb instances update $PSQL_INSTANCE \
 ```
 gcloud --project ${PROJECT_ID} deploy apply --file clouddeploy.yaml --region "${REGION}
 ```
+
+# Setup Serverless NEGs
+
+Mainly following this [doc](https://cloud.google.com/load-balancing/docs/https/setup-global-ext-https-serverless)
+
+Reserve External IP
+
+```
+gcloud compute addresses create example-ip \
+    --network-tier=PREMIUM \
+    --ip-version=IPV4 \
+    --global
+```

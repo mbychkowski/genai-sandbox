@@ -15,13 +15,13 @@
 apiVersion: deploy.cloud.google.com/v1
 kind: DeliveryPipeline
 metadata:
-  name: genai-client
+  name: client
   annotations:
     about: NextJS client with firebase oauth integration
   labels:
     lang: javascript
 description: |
-  Delivery pipeline for CI CD apps/genai-client.
+  Delivery pipeline for CI CD apps/genai/client.
 serialPipeline:
   stages:
   - targetId: dev

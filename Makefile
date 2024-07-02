@@ -35,6 +35,9 @@ enable-apis:
 		container.googleapis.com \
 		mesh.googleapis.com
 
+enable-iam:
+	@sh ./scripts/enable-iam.sh
+
 # This is where local builds should go. Those not going through deployment
 # pipeline
 registry-dirty:

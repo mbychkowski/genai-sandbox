@@ -27,9 +27,10 @@ steps:
       echo "$SHORT_SHA"
       echo "$TAG_NAME"
       echo "$LOCATION"
+      echo "$BUILD_ID"
       echo "***********************"
 
-- name: gcr.io/k8s-skaffold/skaffold:v2.12.0
+- name: gcr.io/k8s-skaffold/skaffold:v2.11.1
   id: skaffoldBuild
   args:
     - 'skaffold'
@@ -47,13 +48,13 @@ steps:
   args:
   - '-c'
   - |
-      gcloud deploy releases create "$_DEPLOY_PIPELINE-$SHORT_SHA"  \
+      gcloud deploy releases create "$_DEPLOY_PIPELINE-$BUILD_ID"  \
         --delivery-pipeline="$_DEPLOY_PIPELINE" \
         --build-artifacts=/workspace/artifacts.json \
         --skaffold-file="apps/$_DEPLOY_PIPELINE/skaffold.yaml" \
-        --skaffold-version="2.0" \
+        --skaffold-version="2.11" \
         --region="$LOCATION" &&
-        echo "$_DEPLOY_PIPELINE-$SHORT_SHA" > "$_RELEASE_FILE_PATH"
+        echo "$_DEPLOY_PIPELINE-$BUILD_ID" > "$_RELEASE_FILE_PATH"
 
 options:
   # This allows for missing ENV variables.
@@ -62,4 +63,4 @@ substitutions:
   _ARTIFACT_REPO_NAME: cicd
   _RELEASE_FILE_PATH: /workspace/.cb.releasename
   _DEPLOY_PIPELINE: client
-  
+  _VERSION: v1

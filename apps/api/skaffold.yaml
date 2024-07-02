@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: skaffold/v4beta7
+apiVersion: skaffold/v4beta10
 kind: Config
 metadata:
-  name: genai-api
+  name: api
 profiles:
 - name: local
   build:
@@ -32,7 +32,7 @@ profiles:
             format: "2006-01-02_15-04-05.999_MST"
             timezone: "Local"
     artifacts:
-    - image: apps/genai-api
+    - image: apps/genai/api
       context: .
       kaniko:
         dockerfile: Dockerfile
