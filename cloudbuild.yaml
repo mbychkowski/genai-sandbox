@@ -13,7 +13,7 @@
 # limitations under the License.
 
 steps:
-- id: 'repoBuildConfirmation'
+- id: 'buildConfirmation'
   name: 'alpine'
   entrypoint: 'sh'
   dir: /workspace
@@ -63,4 +63,3 @@ substitutions:
   _ARTIFACT_REPO_NAME: cicd
   _RELEASE_FILE_PATH: /workspace/.cb.releasename
   _DEPLOY_PIPELINE: client
-  _VERSION: v1

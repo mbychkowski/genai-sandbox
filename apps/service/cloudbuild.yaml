@@ -1,0 +1,88 @@
+# Copyright 2023 Google LLC All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+projectId: $PROJECT_ID
+options:
+  logging: CLOUD_LOGGING_ONLY
+  pool: {}
+
+steps:
+- id: 'buildConfirmationStep'
+  name: 'alpine'
+  entrypoint: 'sh'
+  dir: /workspace
+  args:
+  - '-c'
+  - |
+      echo "***********************"
+      echo "$PROJECT_ID"
+      echo "$BUILD_ID"
+      echo "$LOCATION"
+      echo "$REPO_NAME"
+      echo "$BRANCH_NAME"
+      echo "$SHORT_SHA"
+      echo "$TAG_NAME"
+      echo "***********************"
+
+- name: 'node'
+  id: expressNpmInstallStep
+  entrypoint: 'npm'
+  args:
+  - install
+
+- name: 'node'
+  id: angularNpmInstallStep
+  entrypoint: 'npm'
+  args:
+  - install
+  - --prefix
+  - angular-app/
+
+- name: 'node'
+  id: angularBuildStep
+  entrypoint: 'npm'
+  args:
+  - run
+  - build
+  - --prefix
+  - angular-app/
+
+- name: gcr.io/k8s-skaffold/pack
+  id: buildpackStep
+  entrypoint: pack
+  args:
+  - build
+  - "${_ARTIFACT_REPO_LOC}-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REPO_NAME}/${_ARTIFACT_IMAGE_NAME}"
+  - --builder
+  - gcr.io/buildpacks/builder:latest
+  - --network
+  - cloudbuild
+  - --publish
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: deployCloudRunStep
+  entrypoint: gcloud
+  args:
+  - run
+  - deploy
+  - ${_ARTIFACT_IMAGE_NAME}
+  - --image
+  - "${_ARTIFACT_REPO_LOC}-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REPO_NAME}/${_ARTIFACT_IMAGE_NAME}"
+  - --region
+  - ${_APP_DEPLOY_REGION}
+
+substitutions:
+  _ARTIFACT_REPO_NAME: example
+  _ARTIFACT_REPO_LOC: us-central1
+  _ARTIFACT_IMAGE_NAME: my-angular-app
+  _APP_DEPLOY_REGION: us-central1
