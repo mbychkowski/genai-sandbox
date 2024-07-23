@@ -1,0 +1,19 @@
+creationTimestamp: '2024-07-16T12:44:48.308-07:00'
+defaultService: https://www.googleapis.com/compute/v1/projects/prj-kokiri-dev/global/backendServices/serverless-lb-be
+fingerprint: pWXgwKTmh6A=
+hostRules:
+- hosts:
+  - '*'
+  pathMatcher: serverless-matcher
+id: 1902989923346772800
+kind: compute#urlMap
+name: url-map-my-angular-app
+pathMatchers:
+- defaultService: https://www.googleapis.com/compute/v1/projects/prj-kokiri-dev/global/backendServices/serverless-lb-be
+  name: serverless-matcher
+  pathRules:
+  - paths:
+    - /angular
+    - /angular/*
+    service: https://www.googleapis.com/compute/v1/projects/prj-kokiri-dev/global/backendServices/serverless-lb-be
+selfLink: https://www.googleapis.com/compute/v1/projects/prj-kokiri-dev/global/urlMaps/url-map-my-angular-app

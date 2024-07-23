@@ -1,0 +1,12 @@
+# gcloud endpoints services deploy ${WORK_DIR}dns-spec.yaml \
+#   --project ${TENANT_PROJECT_ID}
+swagger: "2.0"
+info:
+  description: "Example app Cloud Endpoints DNS"
+  title: "Example app Cloud Endpoints DNS"
+  version: "1.0.0"
+paths: {}
+host: "app.endpoints.prj-kokiri-dev.cloud.goog"
+x-google-endpoints:
+- name: "app.endpoints.prj-kokiri-dev.cloud.goog"
+  target: "34.36.144.125"

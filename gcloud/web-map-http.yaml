@@ -1,0 +1,29 @@
+kind: compute#urlMap
+name: web-map-http
+# defaultService: https://www.googleapis.com/compute/v1/projects/prj-kokiri-dev/global/backendServices/serverless-lb-be
+defaultUrlRedirect:
+  redirectResponseCode: MOVED_PERMANENTLY_DEFAULT
+  httpsRedirect: True
+hostRules:
+- hosts:
+  - '*'
+  pathMatcher: serverless-matcher
+pathMatchers:
+- defaultService: https://www.googleapis.com/compute/v1/projects/prj-kokiri-dev/global/backendServices/serverless-lb-be
+  name: serverless-matcher
+  pathRules:
+  - paths:
+    - /angular
+    - /angular/*
+    service: https://www.googleapis.com/compute/v1/projects/prj-kokiri-dev/global/backendServices/serverless-lb-be
+tests:
+- description: Test with no query parameters
+  host: example.com
+  path: /test/
+  expectedOutputUrl: https://example.com/test/
+  expectedRedirectResponseCode: 301
+- description: Test with query parameters
+  host: example.com
+  path: /test/?parameter1=value1&parameter2=value2
+  expectedOutputUrl: https://example.com/test/?parameter1=value1&parameter2=value2
+  expectedRedirectResponseCode: 301
